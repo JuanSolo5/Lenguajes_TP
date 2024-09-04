@@ -14,9 +14,6 @@ class usuario:
 
 listaUsuarios=[]
 
-
-
-
 # consulta la lista de todos los usuarios
 def consultarUsuario(listaUser):
     for i in listaUser:
@@ -58,6 +55,21 @@ def modificarUsuario(listaUser):
         usuario_selec.estado = estado
 
         print(f"Usuario {usuario_selec} modificado")
+
+# elimina un usuario 
+def eliminarUsuario(listaUser):
+    nombreE = input("Ingrese el nombre ")
+    contrE = input("ingrese la contraseña ")
+    usuario_encontrado = False
+
+    for i in range(len(listaUser)):
+        if listaUser[i].nombre == nombreE and listaUser[i].contr == contrE:
+            usuario_encontrado = True
+            usuario_eliminado = listaUser.pop(i)
+            print(f"El usuario {usuario_eliminado} fue eliminado")
+    if usuario_encontrado == False:
+        print("El usuario no fue encontrado")
+
 # ejecuta las funciones en un menu
 def menuUsuarios(listaUser):
     menuActivo = True
