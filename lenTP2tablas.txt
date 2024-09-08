@@ -1,0 +1,24 @@
+CREATE TABLE users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    telephone VARCHAR(20),
+    address VARCHAR(255),
+    status VARCHAR(50)
+    store_id INT
+);
+
+ALTER TABLE users
+ADD CONSTRAINT fk_store
+FOREIGN KEY (store_id)
+REFERENCES stores(id);
+
+CREATE TABLE stores (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    address VARCHAR(255)
+);
+
+*aca estan las tablas que usa el otro codigo*
+
