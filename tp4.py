@@ -76,7 +76,7 @@ def login_user_ui():
             print(f"The role of {username} is {role}.")
             if role == "Administrador":
                 admin_actions()
-            elif role == "Usuario":
+            elif role == "Empleado":
                 user_actions()
             else:
                 print("Unknown role.")
@@ -86,44 +86,54 @@ def login_user_ui():
         print("Invalid username or password.")
 
 
+## ROL ADMIN
 def admin_actions():
-    def user_management():
-        print("\n--- User Administrador ---")
-        print("1. Create User")
-        print("2. Update User")
-        print("3. Delete User")
-
-        choice = input("Select an option (1-3): ")
-
-        if choice == "1":
-            create_user_ui()
-        elif choice == "2":
-            update_user_ui()
-        elif choice == "3":
-            delete_user_ui()
-
-        else:
-            print("Invalid choice, please try again.")
-            user_management()
+    user_management_admin()
 
 
+def user_management_admin():
+    print("\n--- User Administrador ---")
+    print("1. Create User")
+    print("2. Update User")
+    print("3. Delete User")
+    print("4. Exit")
+
+    choice = input("Select an option (1-3): ")
+
+    if choice == "1":
+        create_user_ui()
+    elif choice == "2":
+        update_user_ui()
+    elif choice == "3":
+        delete_user_ui()
+    elif choice == "4":
+        print("Closing terminal...")
+        sys.exit()
+    else:
+        print("Invalid choice, please try again.")
+        user_management_admin()
+
+
+## ROL EMPLEADO
 def user_actions():
+    user_management_employee()
 
-    def user_management():
-        print("\n--- User Administrador ---")
-        print("1. Read Users")
-        print("2. Exit")
 
-        choice = input("Select an option (1-3): ")
+def user_management_employee():
+    print("\n--- User Employee ---")
+    print("1. Read Users")
+    print("2. Exit")
 
-        if choice == "1":
-            read_users_ui()
-        elif choice == "2":
-            print("Closing terminal...")
-            sys.exit()
-        else:
-            print("Invalid choice, please try again.")
-            user_management()
+    choice = input("Select an option (1-3): ")
+
+    if choice == "1":
+        read_users_ui()
+    elif choice == "2":
+        print("Closing terminal...")
+        sys.exit()
+    else:
+        print("Invalid choice, please try again.")
+        user_management_employee()
 
 
 ## Es para que se ejecute solo este codigo, ya que importe las funciones del otro archivo
