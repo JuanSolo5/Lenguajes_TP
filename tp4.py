@@ -40,6 +40,7 @@ class Database:
         return user
 
 
+## Manejo de usuario para tp 4
 def login_user_ui():
     username = input("Enter username: ")
     password = input("Enter password: ")
