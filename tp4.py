@@ -1,5 +1,12 @@
 import mysql.connector
-import getpass
+import getpass  ## para que no sea visible la pass en consola al escribirla
+import sys  ## para poder cerrar la terminal de PY
+from lenTP2db import (
+    create_user_ui,
+    read_users_ui,
+    update_user_ui,
+    delete_user_ui,
+)  ## me traigo las funciones que necesito de " lenTP2db.py "
 
 config = {
     "user": "root",
@@ -80,17 +87,46 @@ def login_user_ui():
 
 
 def admin_actions():
-    print("Performing admin actions...")
+    def user_management():
+        print("\n--- User Administrador ---")
+        print("1. Create User")
+        print("2. Update User")
+        print("3. Delete User")
 
-    print("Admin action 1")
-    print("Admin action 2")
+        choice = input("Select an option (1-3): ")
+
+        if choice == "1":
+            create_user_ui()
+        elif choice == "2":
+            update_user_ui()
+        elif choice == "3":
+            delete_user_ui()
+
+        else:
+            print("Invalid choice, please try again.")
+            user_management()
 
 
 def user_actions():
-    print("Performing user actions...")
 
-    print("User action 1")
-    print("User action 2")
+    def user_management():
+        print("\n--- User Administrador ---")
+        print("1. Read Users")
+        print("2. Exit")
+
+        choice = input("Select an option (1-3): ")
+
+        if choice == "1":
+            read_users_ui()
+        elif choice == "2":
+            print("Closing terminal...")
+            sys.exit()
+        else:
+            print("Invalid choice, please try again.")
+            user_management()
 
 
-login_user_ui()
+## Es para que se ejecute solo este codigo, ya que importe las funciones del otro archivo
+if __name__ == "__main__":
+
+    login_user_ui()

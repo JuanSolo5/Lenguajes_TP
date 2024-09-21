@@ -1,5 +1,5 @@
 import mysql.connector
-import getpass
+import getpass  ## para que no sea visible la pass en consola al escribirla
 
 config = {
     "user": "root",
@@ -353,4 +353,6 @@ def login_user_ui():
     user_management()
 
 
-main_menu()
+## Es para que se ejecute solo este codigo, ya que importe las funciones del otro archivo
+if __name__ == "__main__":
+    main_menu()
