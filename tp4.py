@@ -1,4 +1,5 @@
 import mysql.connector
+import getpass
 
 config = {
     "user": "root",
@@ -43,7 +44,7 @@ class Database:
 ## Manejo de usuario para tp 4
 def login_user_ui():
     username = input("Enter username: ")
-    password = input("Enter password: ")
+    password = getpass.getpass("Enter password: ")
     user = Database.login(username, password)
     if user:
         print("Login successful!")

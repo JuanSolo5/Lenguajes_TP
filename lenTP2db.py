@@ -1,4 +1,5 @@
 import mysql.connector
+import getpass
 
 config = {
     "user": "root",
@@ -157,14 +158,14 @@ def store_management():
 def select_role():
     print("Selecciona tu rol:")
     print("1. Administrador")
-    print("2. Usuario")
+    print("2. Empleado")
 
     choice = input("Ingresa el número de tu elección (1 o 2): ")
 
     if choice == "1":
         selected_role = "Administrador"
     elif choice == "2":
-        selected_role = "Usuario"
+        selected_role = "Empleado"
     else:
         selected_role = "Elección inválida"
     return selected_role
@@ -176,7 +177,7 @@ def select_role():
 def create_user_ui():
     name = input("Enter name: ")
     email = input("Enter email: ")
-    password = input("Enter password: ")
+    password = getpass.getpass("Enter password: ")
     rol = select_role()
     telephone = input("Enter telephone: ")
     address = input("Enter address: ")
