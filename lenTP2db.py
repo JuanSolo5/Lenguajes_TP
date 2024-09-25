@@ -205,6 +205,9 @@ def read_users_ui():
         print(user)
     user_management()
 
+def read_users_ui_unique(user):
+    print(user)
+
 
 def update_user_ui():
     user_id = input("Enter user ID to update: ")
@@ -214,7 +217,6 @@ def update_user_ui():
         print("User not found.")
         user_management()
         return
-
     (
         current_name,
         current_email,
@@ -279,6 +281,26 @@ def update_user_ui():
     )
     print("User updated successfully.")
     user_management()
+
+def update_password_ui(user_id):
+
+    user = Database.read_by_id("users", user_id)
+    if not user:
+        print("User not found.")
+        user_management()
+        return
+
+    current_password = user[3]  # Es password es el cuarto elemento
+
+    password = input("Enter new password (or press Enter to keep current): ") or current_password
+
+
+    Database.update("users", user_id, password=password)
+
+    print("Password updated successfully.")
+
+    #user_management()
+
 
 
 def delete_user_ui():

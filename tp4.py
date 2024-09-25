@@ -4,7 +4,9 @@ import sys  ## para poder cerrar la terminal de PY
 from lenTP2db import (
     create_user_ui,
     read_users_ui,
+    read_users_ui_unique,
     update_user_ui,
+    update_password_ui,
     delete_user_ui,
 )  ## me traigo las funciones que necesito de " lenTP2db.py "
 
@@ -77,7 +79,7 @@ def login_user_ui():
             if role == "Administrador":
                 admin_actions()
             elif role == "Empleado":
-                user_actions()
+                user_actions(user)
             else:
                 print("Unknown role.")
         else:
@@ -96,9 +98,11 @@ def user_management_admin():
     print("1. Create User")
     print("2. Update User")
     print("3. Delete User")
+    print("5. Read Users")
+    ## Cambiar numero de Read Users
     print("4. Exit")
 
-    choice = input("Select an option (1-3): ")
+    choice = input("Select an option (1-5): ")
 
     if choice == "1":
         create_user_ui()
@@ -106,6 +110,8 @@ def user_management_admin():
         update_user_ui()
     elif choice == "3":
         delete_user_ui()
+    elif choice == "5"(): ## CAMBIAR NUMERO
+        read_users_ui()
     elif choice == "4":
         print("Closing terminal...")
         sys.exit()
@@ -115,22 +121,27 @@ def user_management_admin():
 
 
 ## ROL EMPLEADO
-def user_actions():
-    user_management_employee()
+def user_actions(user):
+    user_management_employee(user)
 
 
-def user_management_employee():
+def user_management_employee(user):
     print("\n--- User Employee ---")
-    print("1. Read Users")
-    print("2. Exit")
+    print("1. Read User")
+    print("2. Change Password")
+    print("3. Exit")
 
     choice = input("Select an option (1-3): ")
 
     if choice == "1":
-        read_users_ui()
-    elif choice == "2":
+        read_users_ui_unique(user)
+    elif choice == "3":
         print("Closing terminal...")
         sys.exit()
+
+    elif choice == "2":
+       update_password_ui(user[0])
+       user_management_employee()
     else:
         print("Invalid choice, please try again.")
         user_management_employee()
