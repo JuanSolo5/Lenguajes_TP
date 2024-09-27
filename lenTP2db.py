@@ -86,7 +86,8 @@ class Database:
 
 
 def main_menu():
-    print("\n--- Main Menu ---")
+
+    print("\n--- Administrator Main Menu ---")
     print("1. User Management")
     print("2. Store Management")
     print("3. Exit")
@@ -156,7 +157,7 @@ def store_management():
 
 ## Creamos funcion para poder elegir un rol :
 def select_role():
-    print("Selecciona tu rol:")
+    print("Seleccionar rol:")
     print("1. Administrador")
     print("2. Empleado")
 
@@ -177,7 +178,7 @@ def select_role():
 def create_user_ui():
     name = input("Enter name: ")
     email = input("Enter email: ")
-    password = getpass.getpass("Enter password: ")
+    password = input("Enter password: ")
     rol = select_role()
     telephone = input("Enter telephone: ")
     address = input("Enter address: ")
@@ -206,6 +207,10 @@ def read_users_ui():
     user_management()
 
 
+def read_users_ui_unique(user):
+    print(user)
+
+
 def update_user_ui():
     user_id = input("Enter user ID to update: ")
 
@@ -214,7 +219,6 @@ def update_user_ui():
         print("User not found.")
         user_management()
         return
-
     (
         current_name,
         current_email,
@@ -240,7 +244,7 @@ def update_user_ui():
     )
 
     rol = (
-        input(f"Enter new store (or press Enter to keep current: {current_rol}): ")
+        input(f"Enter new role (or press Enter to keep current: {current_rol}): ")
         or current_rol
     )
 
@@ -279,6 +283,25 @@ def update_user_ui():
     )
     print("User updated successfully.")
     user_management()
+
+
+def update_password_ui(user_id):
+
+    user = Database.read_by_id("users", user_id)
+    if not user:
+        print("User not found.")
+        user_management()
+        return
+
+    current_password = user[3]  # Es password es el cuarto elemento
+
+    password = input("Enter new password (or press Enter to keep current): ") or current_password
+
+    Database.update("users", user_id, password=password)
+
+    print("Password updated successfully.")
+
+    #user_management()
 
 
 def delete_user_ui():
