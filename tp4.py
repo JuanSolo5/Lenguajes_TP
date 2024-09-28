@@ -91,6 +91,10 @@ class Database:
 def login_user_ui():
     email = input("Enter email: ")  # pedimos el email porque el username podira estar repetido
     user = Database.read_by_email(email)
+    if user[7] == "bloqueado":
+        print("Blocked account.")
+        sys.exit()
+
     if user:
         if user[9]:  # la columna 10 es el atributo 'first_login'
             new_password = generate_password()
