@@ -204,8 +204,11 @@ def read_users_ui():
     user_management()
 
 
-def read_users_ui_unique(user):
-    print(user)
+def read_users_ui_unique(user):  # la modifique para que el empleado no vea la pw ni datos internos de la bd
+    print(f"Nombre: {user[1]}")
+    print(f"Email: {user[2]}")
+    print(f"Telefono: {user[5]}")
+    print(f"Direccion: {user[6]}")
 
 
 def update_user_ui():
