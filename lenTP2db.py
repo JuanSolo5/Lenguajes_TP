@@ -228,6 +228,7 @@ def update_user_ui():
         current_address,
         current_status,
         current_store_id,
+        *_    # esto es para que ignore la columna first_login
     ) = user[1:]
 
     name = (
