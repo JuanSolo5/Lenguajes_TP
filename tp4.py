@@ -89,7 +89,7 @@ class Database:
 
 ## Manejo de usuario para tp 4
 def login_user_ui():
-    email = input("Enter email: ")  # pedimos el email porque el username podira estar repetido
+    email = input("Enter email: ")  # pedimos el email porque el username podria estar repetido
     user = Database.read_by_email(email)
     if user[7] == "bloqueado":
         print("Blocked account.")
