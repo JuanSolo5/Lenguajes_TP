@@ -1,5 +1,5 @@
 import mysql.connector
-import getpass  ## para que no sea visible la pass en consola al escribirla
+import getpass  # para que no sea visible la pass en consola al escribirla
 
 config = {
     "user": "root",
@@ -110,9 +110,8 @@ def user_management():
     print("2. Read Users")
     print("3. Update User")
     print("4. Delete User")
-    print("5. Login")
-    print("6. Back to Main Menu")
-    choice = input("Select an option (1-6): ")
+    print("5. Back to Main Menu")
+    choice = input("Select an option (1-5): ")
 
     if choice == "1":
         create_user_ui()
@@ -123,8 +122,6 @@ def user_management():
     elif choice == "4":
         delete_user_ui()
     elif choice == "5":
-        login_user_ui()
-    elif choice == "6":
         main_menu()
     else:
         print("Invalid choice, please try again.")
@@ -290,7 +287,6 @@ def update_password_ui(user_id):
     user = Database.read_by_id("users", user_id)
     if not user:
         print("User not found.")
-        user_management()
         return
 
     current_password = user[3]  # Es password es el cuarto elemento
@@ -301,7 +297,9 @@ def update_password_ui(user_id):
 
     print("Password updated successfully.")
 
-    #user_management()
+    user = Database.read_by_id("users", user_id)
+
+    return user
 
 
 def delete_user_ui():
