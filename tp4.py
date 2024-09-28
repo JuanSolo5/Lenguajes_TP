@@ -7,7 +7,7 @@ import string
 from lenTP2db import (
     main_menu,
     read_users_ui_unique,
-    update_password_ui,
+    update_password_ui
 )  ## me traigo las funciones que necesito de " lenTP2db.py "
 
 config = {
@@ -89,16 +89,16 @@ class Database:
 
 ## Manejo de usuario para tp 4
 def login_user_ui():
-    email = input("Enter email: ")  # pedimos el email porque el username podria estar repetido
+    email = input("Enter email: ")  # pedimos el email porque el username podira estar repetido
     user = Database.read_by_email(email)
     if user:
-        if user[9]: # la columna 10 es el atributo 'first_login'
+        if user[9]:  # la columna 10 es el atributo 'first_login'
             new_password = generate_password()
             print(f"Your password is: {new_password}")
             Database.update("users", user[0], password=new_password, first_login=False)
-            return
+            login_user_ui()
 
-        password = input("Enter password: ")  #si no pedimos el pw normalmente
+        password = input("Enter password: ")  # si no pedimos el pw normalmente
         if user[3] == password:
             print("Login successful.")
             role = Database.get_user_role(user[0])
@@ -114,11 +114,13 @@ def login_user_ui():
                 print("Role not found.")
         else:
             print("Invalid credentials.")
+    else:
+        print("User not found.")
 
 
 ## ROL ADMIN
 def admin_actions():
-    main_menu() # llamamos al main menu del otro archivo que tiene todas las operaciones CRUD que pide el tp
+    main_menu()  # llamamos al main menu del otro archivo que tiene todas las operaciones CRUD que pide el tp
 
 
 ## ROL EMPLEADO
@@ -142,7 +144,7 @@ def user_management_employee(user):
         sys.exit()
 
     elif choice == "2":
-        update_password_ui(user[0])
+        user = update_password_ui(user[0])
         user_management_employee(user)
     else:
         print("Invalid choice, please try again.")
@@ -156,7 +158,7 @@ def generate_password():
     ]
 
     characters = string.ascii_letters + string.digits
-    password_chars += random.choices(characters, k=6)   # agregamos otros 6 caracteres random
+    password_chars += random.choices(characters, k=6)  # agregamos otros 6 caracteres random
 
     random.shuffle(password_chars)
 
@@ -164,7 +166,7 @@ def generate_password():
     return password
 
 
-## Es para que se ejecute solo este codigo, ya que importe las funciones del otro archivo
+# Es para que se ejecute solo este codigo, ya que importe las funciones del otro archivo
 if __name__ == "__main__":
 
     login_user_ui()
