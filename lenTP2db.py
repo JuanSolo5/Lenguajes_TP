@@ -391,20 +391,6 @@ def delete_store_ui():
     store_management()
 
 
-def login_user_ui():
-    username = input("Enter username: ")
-    user = Database.read_by_name("users", username)
-    if user is None:
-        print("Username not found.")
-        return
-    password = input("Enter password: ")
-    if user[3] == password:
-        print("Login successful.")
-    else:
-        print("Invalid password.")
-    user_management()
-
-
 def generate_password():
     password_chars = [  # para que tenga al menos una letra y un digito
         random.choice(string.ascii_letters),
