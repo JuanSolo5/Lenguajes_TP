@@ -213,6 +213,9 @@ def read_users_ui_unique(user):  # la modifique para que el empleado no vea la p
     print(f"Email: {user[2]}")
     print(f"Telefono: {user[5]}")
     print(f"Direccion: {user[6]}")
+    store = Database.read_by_id("stores", user[8])
+    if store:
+        print(f"Sucursal: {store[1]}")
 
 
 def update_user_ui():
@@ -234,7 +237,7 @@ def update_user_ui():
         current_address,
         current_status,
         current_store_id,
-        *_
+        *_  # esto es para que ignore la columna first_login
     ) = user[1:]
 
     name = (
