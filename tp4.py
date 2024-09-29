@@ -89,6 +89,7 @@ class Database:
 
 ## Manejo de usuario para tp 4
 def login_user_ui():
+    print("--- Login ---")
     email = input("Enter email: ")  # pedimos el email porque el username podria estar repetido
     user = Database.read_by_email(email)
 
