@@ -91,11 +91,12 @@ class Database:
 def login_user_ui():
     email = input("Enter email: ")  # pedimos el email porque el username podria estar repetido
     user = Database.read_by_email(email)
-    if user[7] == "Bloqueado":
-        print("Blocked account.")
-        sys.exit()
 
     if user:
+        if user[7] == "Bloqueado":
+            print("Blocked account.")
+            sys.exit()
+
         if user[9]:  # la columna 10 es el atributo 'first_login'
             new_password = generate_password()
             print(f"Your password is: {new_password}")
@@ -118,8 +119,10 @@ def login_user_ui():
                 print("Role not found.")
         else:
             print("Invalid credentials.")
+            sys.exit()
     else:
         print("User not found.")
+        sys.exit()
 
 
 ## ROL ADMIN
