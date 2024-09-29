@@ -91,7 +91,7 @@ class Database:
 def login_user_ui():
     email = input("Enter email: ")  # pedimos el email porque el username podria estar repetido
     user = Database.read_by_email(email)
-    if user[7] == "bloqueado":
+    if user[7] == "Bloqueado":
         print("Blocked account.")
         sys.exit()
 
@@ -134,7 +134,7 @@ def user_actions(user):
 
 def user_management_employee(user):
     print("\n--- User Employee ---")
-    print("1. Read User")
+    print("1. Personal Info")
     print("2. Change Password")
     print("3. Exit")
 
