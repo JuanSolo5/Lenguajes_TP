@@ -1,5 +1,6 @@
 import mysql.connector
 import getpass  # para que no sea visible la pass en consola al escribirla
+import sys
 
 config = {
     "user": "root",
@@ -99,6 +100,7 @@ def main_menu():
         store_management()
     elif choice == "3":
         print("Exiting program...")
+        sys.exit()
     else:
         print("Invalid choice, please try again.")
         main_menu()
@@ -161,12 +163,12 @@ def select_role():
     choice = input("Ingresa el número de tu elección (1 o 2): ")
 
     if choice == "1":
-        selected_role = "Administrador"
+        return "Administrador"
     elif choice == "2":
-        selected_role = "Empleado"
+        return "Empleado"
     else:
-        selected_role = "Elección inválida"
-    return selected_role
+        print("Elija una opcion valida")
+        select_role()
 
 
 ## Fin
@@ -179,7 +181,7 @@ def create_user_ui():
     rol = select_role()
     telephone = input("Enter telephone: ")
     address = input("Enter address: ")
-    status = input("Enter status: ")
+    status = select_status()
     store_id = input("Enter store: ")
 
     Database.create(
@@ -215,10 +217,12 @@ def update_user_ui():
     user_id = input("Enter user ID to update: ")
 
     user = Database.read_by_id("users", user_id)
+
     if not user:
         print("User not found.")
         user_management()
         return
+
     (
         current_name,
         current_email,
@@ -228,26 +232,25 @@ def update_user_ui():
         current_address,
         current_status,
         current_store_id,
-        *_    # esto es para que ignore la columna first_login
+        *_
     ) = user[1:]
 
     name = (
         input(f"Enter new name (or press Enter to keep current: {current_name}): ")
         or current_name
     )
+
     email = (
         input(f"Enter new email (or press Enter to keep current: {current_email}): ")
         or current_email
     )
+
     password = (
         input(f"Enter new password (or press Enter to keep current): ")
         or current_password
     )
 
-    rol = (
-        input(f"Enter new role (or press Enter to keep current: {current_rol}): ")
-        or current_rol
-    )
+    rol = select_role()
 
     telephone = (
         input(
@@ -255,16 +258,16 @@ def update_user_ui():
         )
         or current_telephone
     )
+
     address = (
         input(
             f"Enter new address (or press Enter to keep current: {current_address}): "
         )
         or current_address
     )
-    status = (
-        input(f"Enter new status (or press Enter to keep current: {current_status}): ")
-        or current_status
-    )
+
+    status = select_status()
+
     store_id = (
         input(f"Enter new store (or press Enter to keep current: {current_store_id}): ")
         or current_store_id
@@ -286,6 +289,25 @@ def update_user_ui():
     user_management()
 
 
+def select_status():
+    print("Select status:")
+    print("1. Activo")
+    print("2. Inactivo")
+    print("3. Bloqueado")
+
+    choice = input("Select an option 1-3: ")
+
+    if choice == "1":
+        return "Activo"
+    elif choice == "2":
+        return "Inactivo"
+    elif choice == "3":
+        return "Bloqueado"
+    else:
+        print("Choose a valid option")
+        select_status()
+
+
 def update_password_ui(user_id):
 
     user = Database.read_by_id("users", user_id)
@@ -293,7 +315,7 @@ def update_password_ui(user_id):
         print("User not found.")
         return
 
-    current_password = user[3]  # Es password es el cuarto elemento
+    current_password = user[3]  # El password es el cuarto elemento
 
     password = input("Enter new password (or press Enter to keep current): ") or current_password
 
