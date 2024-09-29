@@ -1,6 +1,8 @@
 import mysql.connector
 import getpass  # para que no sea visible la pass en consola al escribirla
 import sys
+import random
+import string
 
 config = {
     "user": "root",
@@ -177,7 +179,7 @@ def select_role():
 def create_user_ui():
     name = input("Enter name: ")
     email = input("Enter email: ")
-    password = input("Enter password: ")
+    password = generate_password()
     rol = select_role()
     telephone = input("Enter telephone: ")
     address = input("Enter address: ")
@@ -398,6 +400,21 @@ def login_user_ui():
     else:
         print("Invalid password.")
     user_management()
+
+
+def generate_password():
+    password_chars = [  # para que tenga al menos una letra y un digito
+        random.choice(string.ascii_letters),
+        random.choice(string.digits)
+    ]
+
+    characters = string.ascii_letters + string.digits
+    password_chars += random.choices(characters, k=6)  # agregamos otros 6 caracteres random
+
+    random.shuffle(password_chars)
+
+    password = ''.join(password_chars)
+    return password
 
 
 ## Es para que se ejecute solo este codigo, ya que importe las funciones del otro archivo
