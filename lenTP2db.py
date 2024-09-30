@@ -1,5 +1,8 @@
 import mysql.connector
-import getpass  ## para que no sea visible la pass en consola al escribirla
+import getpass  # para que no sea visible la pass en consola al escribirla
+import sys
+import random
+import string
 
 config = {
     "user": "root",
@@ -86,7 +89,8 @@ class Database:
 
 
 def main_menu():
-    print("\n--- Main Menu ---")
+
+    print("\n--- Administrator Main Menu ---")
     print("1. User Management")
     print("2. Store Management")
     print("3. Exit")
@@ -98,6 +102,7 @@ def main_menu():
         store_management()
     elif choice == "3":
         print("Exiting program...")
+        sys.exit()
     else:
         print("Invalid choice, please try again.")
         main_menu()
@@ -109,9 +114,8 @@ def user_management():
     print("2. Read Users")
     print("3. Update User")
     print("4. Delete User")
-    print("5. Login")
-    print("6. Back to Main Menu")
-    choice = input("Select an option (1-6): ")
+    print("5. Back to Main Menu")
+    choice = input("Select an option (1-5): ")
 
     if choice == "1":
         create_user_ui()
@@ -122,8 +126,6 @@ def user_management():
     elif choice == "4":
         delete_user_ui()
     elif choice == "5":
-        login_user_ui()
-    elif choice == "6":
         main_menu()
     else:
         print("Invalid choice, please try again.")
@@ -156,19 +158,19 @@ def store_management():
 
 ## Creamos funcion para poder elegir un rol :
 def select_role():
-    print("Selecciona tu rol:")
+    print("Seleccionar rol:")
     print("1. Administrador")
     print("2. Empleado")
 
     choice = input("Ingresa el número de tu elección (1 o 2): ")
 
     if choice == "1":
-        selected_role = "Administrador"
+        return "Administrador"
     elif choice == "2":
-        selected_role = "Empleado"
+        return "Empleado"
     else:
-        selected_role = "Elección inválida"
-    return selected_role
+        print("Elija una opcion valida")
+        select_role()
 
 
 ## Fin
@@ -177,11 +179,11 @@ def select_role():
 def create_user_ui():
     name = input("Enter name: ")
     email = input("Enter email: ")
-    password = getpass.getpass("Enter password: ")
+    password = generate_password()
     rol = select_role()
     telephone = input("Enter telephone: ")
     address = input("Enter address: ")
-    status = input("Enter status: ")
+    status = select_status()
     store_id = input("Enter store: ")
 
     Database.create(
@@ -209,10 +211,21 @@ def read_users_ui_unique(user):
     print(user)
 
 
+def read_users_ui_unique(user):  # la modifique para que el empleado no vea la pw ni datos internos de la bd
+    print(f"Nombre: {user[1]}")
+    print(f"Email: {user[2]}")
+    print(f"Telefono: {user[5]}")
+    print(f"Direccion: {user[6]}")
+    store = Database.read_by_id("stores", user[8])
+    if store:
+        print(f"Sucursal: {store[1]}")
+
+
 def update_user_ui():
     user_id = input("Enter user ID to update: ")
 
     user = Database.read_by_id("users", user_id)
+
     if not user:
         print("User not found.")
         user_management()
@@ -226,25 +239,25 @@ def update_user_ui():
         current_address,
         current_status,
         current_store_id,
+        *_  # esto es para que ignore la columna first_login
     ) = user[1:]
 
     name = (
         input(f"Enter new name (or press Enter to keep current: {current_name}): ")
         or current_name
     )
+
     email = (
         input(f"Enter new email (or press Enter to keep current: {current_email}): ")
         or current_email
     )
+
     password = (
         input(f"Enter new password (or press Enter to keep current): ")
         or current_password
     )
 
-    rol = (
-        input(f"Enter new store (or press Enter to keep current: {current_rol}): ")
-        or current_rol
-    )
+    rol = select_role()
 
     telephone = (
         input(
@@ -252,16 +265,16 @@ def update_user_ui():
         )
         or current_telephone
     )
+
     address = (
         input(
             f"Enter new address (or press Enter to keep current: {current_address}): "
         )
         or current_address
     )
-    status = (
-        input(f"Enter new status (or press Enter to keep current: {current_status}): ")
-        or current_status
-    )
+
+    status = select_status()
+
     store_id = (
         input(f"Enter new store (or press Enter to keep current: {current_store_id}): ")
         or current_store_id
@@ -301,6 +314,45 @@ def update_password_ui(user_id):
 
     #user_management()
 
+
+
+def select_status():
+    print("Select status:")
+    print("1. Activo")
+    print("2. Inactivo")
+    print("3. Bloqueado")
+
+    choice = input("Select an option 1-3: ")
+
+    if choice == "1":
+        return "Activo"
+    elif choice == "2":
+        return "Inactivo"
+    elif choice == "3":
+        return "Bloqueado"
+    else:
+        print("Choose a valid option")
+        select_status()
+
+
+def update_password_ui(user_id):
+
+    user = Database.read_by_id("users", user_id)
+    if not user:
+        print("User not found.")
+        return
+
+    current_password = user[3]  # El password es el cuarto elemento
+
+    password = input("Enter new password (or press Enter to keep current): ") or current_password
+
+    Database.update("users", user_id, password=password)
+
+    print("Password updated successfully.")
+
+    user = Database.read_by_id("users", user_id)
+
+    return user
 
 
 def delete_user_ui():
@@ -361,18 +413,19 @@ def delete_store_ui():
     store_management()
 
 
-def login_user_ui():
-    username = input("Enter username: ")
-    user = Database.read_by_name("users", username)
-    if user is None:
-        print("Username not found.")
-        return
-    password = input("Enter password: ")
-    if user[3] == password:
-        print("Login successful.")
-    else:
-        print("Invalid password.")
-    user_management()
+def generate_password():
+    password_chars = [  # para que tenga al menos una letra y un digito
+        random.choice(string.ascii_letters),
+        random.choice(string.digits)
+    ]
+
+    characters = string.ascii_letters + string.digits
+    password_chars += random.choices(characters, k=6)  # agregamos otros 6 caracteres random
+
+    random.shuffle(password_chars)
+
+    password = ''.join(password_chars)
+    return password
 
 
 ## Es para que se ejecute solo este codigo, ya que importe las funciones del otro archivo
