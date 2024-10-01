@@ -1,0 +1,8 @@
+TP4
+Bustos, Santiago.
+Frank, Brian.
+Cazon, Juan Santiago
+
+El TP4 es el archivo tp4.py.
+lenTP2db.py posee clases y funciones que utiliza tp4.py.
+crud_example.sql es la propia base de datos para importar.
