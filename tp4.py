@@ -14,7 +14,7 @@ config = {
     "user": "root",
     "password": "",
     "host": "localhost",
-    "database": "crud_example",
+    "database": "tp4_bd",
 }
 
 
