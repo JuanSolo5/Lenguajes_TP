@@ -1,5 +1,5 @@
 import mysql.connector
-import getpass  ## para que no sea visible la pass en consola al escribirla
+from getpass import getpass  ## para que no sea visible la pass en consola al escribirla
 import sys  ## para poder cerrar la terminal de PY
 import random
 import string
@@ -104,7 +104,7 @@ def login_user_ui():
             Database.update("users", user[0], password=new_password, first_login=False)
             login_user_ui()
 
-        password = input("Enter password: ")  # si no pedimos el pw normalmente
+        password = getpass("Enter password: ")  # si no pedimos el pw normalmente
         if user[3] == password:
             print("Login successful.")
             role = Database.get_user_role(user[0])
