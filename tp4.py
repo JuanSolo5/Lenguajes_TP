@@ -4,7 +4,7 @@ import sys  ## para poder cerrar la terminal de PY
 import random
 import string
 
-from lenTP2db import (
+from tp4functions import (
     main_menu,
     read_users_ui_unique,
     update_password_ui
