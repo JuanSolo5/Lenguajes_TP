@@ -236,18 +236,18 @@ def read_users_ui():
         log_print_user(user)
     user_management()
 
-def read_users_ui_unique(user):
-    log_print_user(user)
+#def read_users_ui_unique(user):
+#    log_print_user(user)
 
 
 def read_users_ui_unique(user):  # la modifique para que el empleado no vea la pw ni datos internos de la bd
-    print(f"Nombre: {user[1]}")
-    print(f"Email: {user[2]}")
-    print(f"Telefono: {user[5]}")
-    print(f"Direccion: {user[6]}")
+    print(f"{Fore.GREEN}Name:{Fore.RESET} {user[1]}, ")
+    print(f"{Fore.GREEN}Email:{Fore.RESET} {user[2]}, ")
+    print(f"{Fore.GREEN}Tel:{Fore.RESET} {user[5]}, ")
+    print(f"{Fore.GREEN}Address:{Fore.RESET} {user[6]}, ")
     store = Database.read_by_id("stores", user[8])
     if store:
-        print(f"Sucursal: {store[1]}")
+        print(f"{Fore.GREEN}Store: {Fore.RESET} {store[1]}")
 
 
 def update_user_ui():
