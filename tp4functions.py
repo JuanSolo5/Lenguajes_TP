@@ -4,6 +4,12 @@ import sys
 import random
 import string
 
+#color de los logs (instalar colorama en la terminal)
+#pip install colorama
+from colorama import Fore, Style, init
+# Inicializar colorama
+init(autoreset=True)
+
 config = {
     "user": "root",
     "password": "",
@@ -187,28 +193,51 @@ def create_user_ui():
     store_id = input("Enter store: ")
 
     Database.create(
-        "users",
-        name=name,
-        email=email,
-        password=password,
-        rol=rol,
-        telephone=telephone,
-        address=address,
-        status=status,
-        store_id=store_id,
-    )
+            "users",
+            name=name,
+            email=email,
+            password=password,
+            rol=rol,
+            telephone=telephone,
+            address=address,
+            status=status,
+            store_id=store_id,
+        )
     print("User created successfully.")
     user_management()
+
+def log_print_user(user):
+
+    status_texto = ""
+    if user[7] == 0:
+        status_texto = "FIRST_LOGIN"
+    elif user[7] == 1:
+        status_texto = "ACTIVE"
+    elif user[7] == 2:
+        status_texto = "BLOCKED"
+    log = (
+        f"{Fore.GREEN}Name:{Fore.RESET} {user[1]}, "
+        f"{Fore.GREEN}Email:{Fore.RESET} {user[2]}, "
+        f"{Fore.GREEN}Password:{Fore.RESET} {user[3]}, "
+        f"{Fore.GREEN}Role:{Fore.RESET} {user[4]}, "
+        f"{Fore.GREEN}Tel:{Fore.RESET} {user[5]}, "
+        f"{Fore.GREEN}Address:{Fore.RESET} {user[6]}, "
+        f"{Fore.GREEN}Status:{Fore.RESET} {status_texto}, "
+        f"{Fore.GREEN}StoreID:{Fore.RESET} {user[8]}"
+    )
+    print(log)
+
+
 
 
 def read_users_ui():
     users = Database.read("users")
     for user in users:
-        print(user)
+        log_print_user(user)
     user_management()
 
 def read_users_ui_unique(user):
-    print(user)
+    log_print_user(user)
 
 
 def read_users_ui_unique(user):  # la modifique para que el empleado no vea la pw ni datos internos de la bd

@@ -8,3 +8,5 @@ lenTP2db.py posee clases y funciones que utiliza tp4.py.
 crud_example.sql es la propia base de datos para importar.
 
 status: 0=firstlogin, 1=active, 2=blocked
+instalar colorama
+#pip install colorama
