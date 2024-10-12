@@ -87,21 +87,21 @@ class Database:
         return result
 
 
-## Manejo de usuario para tp 4
+## Manejo de usuario
 def login_user_ui():
     print("--- Login ---")
     email = input("Enter email: ")  # pedimos el email porque el username podria estar repetido
     user = Database.read_by_email(email)
 
     if user:
-        if user[7] == "Bloqueado":
+        if user[7] == 2: # columna status == blocked
             print("Blocked account.")
             sys.exit()
 
-        if user[9]:  # la columna 10 es el atributo 'first_login'
+        if user[7] == 0:  # la columna status == primer login
             new_password = generate_password()
             print(f"Your password is: {new_password}")
-            Database.update("users", user[0], password=new_password, first_login=False)
+            Database.update("users", user[0], password=new_password, status=1)
             login_user_ui()
 
         password = getpass("Enter password: ")  # si no pedimos el pw normalmente

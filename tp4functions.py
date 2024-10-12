@@ -183,7 +183,7 @@ def create_user_ui():
     rol = select_role()
     telephone = input("Enter telephone: ")
     address = input("Enter address: ")
-    status = select_status()
+    status = 0 #inicializa en primer login
     store_id = input("Enter store: ")
 
     Database.create(
@@ -318,18 +318,18 @@ def update_password_ui(user_id):
 
 def select_status():
     print("Select status:")
+    print("0. Primer login")
     print("1. Activo")
-    print("2. Inactivo")
-    print("3. Bloqueado")
+    print("2. Bloqueado")
 
     choice = input("Select an option 1-3: ")
 
-    if choice == "1":
-        return "Activo"
-    elif choice == "2":
-        return "Inactivo"
-    elif choice == "3":
-        return "Bloqueado"
+    if choice == "0":
+        return 0
+    elif choice == "1":
+        return 1
+    elif choice == 2:
+        return 2
     else:
         print("Choose a valid option")
         select_status()
