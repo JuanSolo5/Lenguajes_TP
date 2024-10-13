@@ -179,7 +179,7 @@ def select_role():
         select_role()
 
 
-def select_status():  # cambie esto de lugar para que las funciones select esten juntas (para mejorar la legibilidad)
+def select_status():
     print("Select status:")
     print("0. Primer login")
     print("1. Activo")
@@ -191,7 +191,7 @@ def select_status():  # cambie esto de lugar para que las funciones select esten
         return 0
     elif choice == "1":
         return 1
-    elif choice == 2:
+    elif choice == "2":
         return 2
     else:
         print("Choose a valid option")
@@ -222,6 +222,7 @@ def create_user_ui():
     print("User created successfully.")
     user_management()
 
+
 def log_print_user(user):
 
     status_texto = ""
@@ -232,6 +233,7 @@ def log_print_user(user):
     elif user[7] == 2:
         status_texto = "BLOCKED"
     log = (
+        f"{Fore.GREEN}ID:{Fore.RESET} {user[0]}, "
         f"{Fore.GREEN}Name:{Fore.RESET} {user[1]}, "
         f"{Fore.GREEN}Email:{Fore.RESET} {user[2]}, "
         f"{Fore.GREEN}Password:{Fore.RESET} {user[3]}, "
@@ -338,7 +340,7 @@ def update_user_ui():
     user_management()
 
 
-def update_password(user_id):  # borre una version que habia de esta funcion que ya no la estabamos usando, tambien le simplifique el nombre
+def update_password(user_id):
 
     user = Database.read_by_id("users", user_id)
     if not user:
@@ -373,10 +375,20 @@ def create_store_ui():
     store_management()
 
 
+def log_print_store(store):
+
+    log = (
+        f"{Fore.GREEN}ID:{Fore.RESET} {store[0]}, "
+        f"{Fore.GREEN}Name:{Fore.RESET} {store[1]}, "
+        f"{Fore.GREEN}Address:{Fore.RESET} {store[2]}, "
+    )
+    print(log)
+
+
 def read_stores_ui():
     stores = Database.read("stores")
     for store in stores:
-        print(store)
+        log_print_store(store)
     store_management()
 
 
