@@ -93,7 +93,7 @@ def login_user_ui():
             Database.update("users", user[0], password=new_password, status=1)
             login_user_ui()
 
-        password = input("Enter password: ")  # si no pedimos el pw normalmente
+        password = getpass("Enter password: ")  # si no pedimos el pw normalmente
         if user[3] == password:
             print("Login successful.")
             role = Database.get_user_role(user[0])
