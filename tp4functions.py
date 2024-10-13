@@ -179,13 +179,13 @@ def select_role():
         select_role()
 
 
-def select_status():
+def select_status():  # puse esta funcion aca para mejorar la legibilidad
     print("Select status:")
     print("0. Primer login")
     print("1. Activo")
     print("2. Bloqueado")
 
-    choice = input("Select an option 1-3: ")
+    choice = input("Select an option 0-2: ")
 
     if choice == "0":
         return 0
@@ -233,7 +233,7 @@ def log_print_user(user):
     elif user[7] == 2:
         status_texto = "BLOCKED"
     log = (
-        f"{Fore.GREEN}ID:{Fore.RESET} {user[0]}, "
+        f"{Fore.GREEN}ID:{Fore.RESET} {user[0]}, "  # agregue el ID porque creo que al administrador le puede ser necesario verlo para hacer otras operaciones
         f"{Fore.GREEN}Name:{Fore.RESET} {user[1]}, "
         f"{Fore.GREEN}Email:{Fore.RESET} {user[2]}, "
         f"{Fore.GREEN}Password:{Fore.RESET} {user[3]}, "
@@ -340,7 +340,7 @@ def update_user_ui():
     user_management()
 
 
-def update_password(user_id):
+def update_password(user_id):  # borre otra version que habia de esta funcion que ya no la usabamos/le simplifique el nombre a esta
 
     user = Database.read_by_id("users", user_id)
     if not user:
@@ -375,7 +375,7 @@ def create_store_ui():
     store_management()
 
 
-def log_print_store(store):
+def log_print_store(store):  # agregue esto para que las sucursales tambien se muestren con formato
 
     log = (
         f"{Fore.GREEN}ID:{Fore.RESET} {store[0]}, "
