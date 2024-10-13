@@ -50,6 +50,8 @@ class Database:
         cursor.close()
         conn.close()
 
+    ## aca borre un metodo para hacer los logins que al final quedo sin usar
+
     @staticmethod
     def get_user_role(user_id):
         conn = Database.connect()
@@ -141,7 +143,7 @@ def user_management_employee(user):
         sys.exit()
 
     elif choice == "2":
-        update_password(user[0])
+        update_password(user[0])  # cambie un poco esta linea porque ahora usamos una funcion nueva que anda bien asi
         user_management_employee(user)
     else:
         print("Invalid choice, please try again.")
