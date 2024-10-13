@@ -179,7 +179,23 @@ def select_role():
         select_role()
 
 
-## Fin
+def select_status():  # cambie esto de lugar para que las funciones select esten juntas (para mejorar la legibilidad)
+    print("Select status:")
+    print("0. Primer login")
+    print("1. Activo")
+    print("2. Bloqueado")
+
+    choice = input("Select an option 1-3: ")
+
+    if choice == "0":
+        return 0
+    elif choice == "1":
+        return 1
+    elif choice == 2:
+        return 2
+    else:
+        print("Choose a valid option")
+        select_status()
 
 
 def create_user_ui():
@@ -228,8 +244,6 @@ def log_print_user(user):
     print(log)
 
 
-
-
 def read_users_ui():
     users = Database.read("users")
     for user in users:
@@ -268,7 +282,6 @@ def update_user_ui():
         current_address,
         current_status,
         current_store_id,
-        *_  # esto es para que ignore la columna first_login
     ) = user[1:]
 
     name = (
@@ -324,51 +337,13 @@ def update_user_ui():
     print("User updated successfully.")
     user_management()
 
-def update_password_ui(user_id):
+
+def update_password(user_id):  # borre una version que habia de esta funcion que ya no la estabamos usando, tambien le simplifique el nombre
 
     user = Database.read_by_id("users", user_id)
     if not user:
         print("User not found.")
         user_management()
-        return
-
-    current_password = user[3]  # Es password es el cuarto elemento
-
-    password = input("Enter new password (or press Enter to keep current): ") or current_password
-
-
-    Database.update("users", user_id, password=password)
-
-    print("Password updated successfully.")
-
-    #user_management()
-
-
-
-def select_status():
-    print("Select status:")
-    print("0. Primer login")
-    print("1. Activo")
-    print("2. Bloqueado")
-
-    choice = input("Select an option 1-3: ")
-
-    if choice == "0":
-        return 0
-    elif choice == "1":
-        return 1
-    elif choice == 2:
-        return 2
-    else:
-        print("Choose a valid option")
-        select_status()
-
-
-def update_password_ui(user_id):
-
-    user = Database.read_by_id("users", user_id)
-    if not user:
-        print("User not found.")
         return
 
     current_password = user[3]  # El password es el cuarto elemento
@@ -379,9 +354,7 @@ def update_password_ui(user_id):
 
     print("Password updated successfully.")
 
-    user = Database.read_by_id("users", user_id)
-
-    return user
+    #user_management()
 
 
 def delete_user_ui():
