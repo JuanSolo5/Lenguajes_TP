@@ -7,8 +7,8 @@ import string
 from tp4functions import (
     main_menu,
     read_users_ui_unique,
-    update_password_ui
-)  ## me traigo las funciones que necesito de " lenTP2db.py "
+    update_password
+)  ## me traigo las funciones que necesito de " tp4functions.py "
 
 config = {
     "user": "root",
@@ -50,17 +50,8 @@ class Database:
         cursor.close()
         conn.close()
 
-    @staticmethod
-    def login(username, password):
-        conn = Database.connect()
-        cursor = conn.cursor()
-        query = "SELECT * FROM users WHERE name = %s AND password = %s"
-        cursor.execute(query, (username, password))
-        user = cursor.fetchone()
-        cursor.close()
-        conn.close()
-        return user
-
+## aca borre un metodo para hacer los logins que al final quedo sin usar
+    
     @staticmethod
     def get_user_role(user_id):
         conn = Database.connect()
@@ -152,7 +143,7 @@ def user_management_employee(user):
         sys.exit()
 
     elif choice == "2":
-        user = update_password_ui(user[0])
+        update_password(user[0])  # aca cambie un poco el codigo porque la funcion que usamos ahora funciona bien asi
         user_management_employee(user)
     else:
         print("Invalid choice, please try again.")
