@@ -203,19 +203,29 @@ def create_user_ui():
     telephone = input("Enter telephone: ")
     address = input("Enter address: ")
     status = 1  # inicializa en activo
-    store_id = input("Enter store: ")
 
+    # Verificar si el store_id existe en la base de datos
+    store_id = input("Enter store ID: ")
+    store = Database.read_by_id("stores", store_id)
+    
+    if not store:
+        print(f"{Fore.RED}Error: The store with ID {store_id} does not exist.{Fore.RESET}")
+        user_management()  # Vuelve al menú de administración de usuarios
+        return
+
+    # Si la tienda existe, procede a crear el usuario
     Database.create(
-            "users",
-            name=name,
-            email=email,
-            password=password,
-            rol=rol,
-            telephone=telephone,
-            address=address,
-            status=status,
-            store_id=store_id,
-        )
+        "users",
+        name=name,
+        email=email,
+        password=password,
+        rol=rol,
+        telephone=telephone,
+        address=address,
+        status=status,
+        store_id=store_id,
+    )
+    
     print("User created successfully.")
     user_management()
 
