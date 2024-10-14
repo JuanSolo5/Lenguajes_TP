@@ -1,14 +1,12 @@
 import mysql.connector
 from getpass import getpass  ## para que no sea visible la pass en consola al escribirla
 import sys  ## para poder cerrar la terminal de PY
-import random
-import string
 
 from tp4functions import (
     main_menu,
     read_users_ui_unique,
-    update_password_ui
-)  ## me traigo las funciones que necesito de " lenTP2db.py "
+    update_password
+)  ## me traigo las funciones que necesito de " tp4functions.py "
 
 config = {
     "user": "root",
@@ -51,17 +49,6 @@ class Database:
         conn.close()
 
     @staticmethod
-    def login(username, password):
-        conn = Database.connect()
-        cursor = conn.cursor()
-        query = "SELECT * FROM users WHERE name = %s AND password = %s"
-        cursor.execute(query, (username, password))
-        user = cursor.fetchone()
-        cursor.close()
-        conn.close()
-        return user
-
-    @staticmethod
     def get_user_role(user_id):
         conn = Database.connect()
         cursor = conn.cursor()
@@ -90,21 +77,15 @@ class Database:
 ## Manejo de usuario
 def login_user_ui():
     print("--- Login ---")
-    email = input("Enter email: ")  # pedimos el email porque el username podria estar repetido
+    email = input("Enter email: ")
     user = Database.read_by_email(email)
 
     if user:
-        if user[7] == 2: # columna status == blocked
+        if user[7] == 2:  # columna status == blocked
             print("Blocked account.")
             sys.exit()
 
-        if user[7] == 0:  # la columna status == primer login
-            new_password = generate_password()
-            print(f"Your password is: {new_password}")
-            Database.update("users", user[0], password=new_password, status=1)
-            login_user_ui()
-
-        password = getpass("Enter password: ")  # si no pedimos el pw normalmente
+        password = getpass("Enter password: ")
         if user[3] == password:
             print("Login successful.")
             role = Database.get_user_role(user[0])
@@ -152,26 +133,11 @@ def user_management_employee(user):
         sys.exit()
 
     elif choice == "2":
-        user = update_password_ui(user[0])
+        update_password(user[0])
         user_management_employee(user)
     else:
         print("Invalid choice, please try again.")
         user_management_employee(user)
-
-
-def generate_password():
-    password_chars = [  # para que tenga al menos una letra y un digito
-        random.choice(string.ascii_letters),
-        random.choice(string.digits)
-    ]
-
-    characters = string.ascii_letters + string.digits
-    password_chars += random.choices(characters, k=6)  # agregamos otros 6 caracteres random
-
-    random.shuffle(password_chars)
-
-    password = ''.join(password_chars)
-    return password
 
 
 # Es para que se ejecute solo este codigo, ya que importe las funciones del otro archivo

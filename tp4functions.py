@@ -179,7 +179,20 @@ def select_role():
         select_role()
 
 
-## Fin
+def select_status():
+    print("Select status:")
+    print("1. Activo")
+    print("2. Bloqueado")
+
+    choice = input("Select an option 1-2: ")
+
+    if choice == "1":
+        return 1
+    elif choice == "2":
+        return 2
+    else:
+        print("Choose a valid option")
+        select_status()
 
 
 def create_user_ui():
@@ -189,33 +202,43 @@ def create_user_ui():
     rol = select_role()
     telephone = input("Enter telephone: ")
     address = input("Enter address: ")
-    status = 0 #inicializa en primer login
-    store_id = input("Enter store: ")
+    status = 1  # inicializa en activo
 
+    # Verificar si el store_id existe en la base de datos
+    store_id = input("Enter store ID: ")
+    store = Database.read_by_id("stores", store_id)
+    
+    if not store:
+        print(f"{Fore.RED}Error: The store with ID {store_id} does not exist.{Fore.RESET}")
+        user_management()  # Vuelve al menú de administración de usuarios
+        return
+
+    # Si la tienda existe, procede a crear el usuario
     Database.create(
-            "users",
-            name=name,
-            email=email,
-            password=password,
-            rol=rol,
-            telephone=telephone,
-            address=address,
-            status=status,
-            store_id=store_id,
-        )
+        "users",
+        name=name,
+        email=email,
+        password=password,
+        rol=rol,
+        telephone=telephone,
+        address=address,
+        status=status,
+        store_id=store_id,
+    )
+    
     print("User created successfully.")
     user_management()
+
 
 def log_print_user(user):
 
     status_texto = ""
-    if user[7] == 0:
-        status_texto = "FIRST_LOGIN"
-    elif user[7] == 1:
+    if user[7] == 1:
         status_texto = "ACTIVE"
     elif user[7] == 2:
         status_texto = "BLOCKED"
     log = (
+        f"{Fore.GREEN}ID:{Fore.RESET} {user[0]}, "
         f"{Fore.GREEN}Name:{Fore.RESET} {user[1]}, "
         f"{Fore.GREEN}Email:{Fore.RESET} {user[2]}, "
         f"{Fore.GREEN}Password:{Fore.RESET} {user[3]}, "
@@ -228,16 +251,11 @@ def log_print_user(user):
     print(log)
 
 
-
-
 def read_users_ui():
     users = Database.read("users")
     for user in users:
         log_print_user(user)
     user_management()
-
-#def read_users_ui_unique(user):
-#    log_print_user(user)
 
 
 def read_users_ui_unique(user):  # la modifique para que el empleado no vea la pw ni datos internos de la bd
@@ -268,7 +286,6 @@ def update_user_ui():
         current_address,
         current_status,
         current_store_id,
-        *_  # esto es para que ignore la columna first_login
     ) = user[1:]
 
     name = (
@@ -324,51 +341,13 @@ def update_user_ui():
     print("User updated successfully.")
     user_management()
 
-def update_password_ui(user_id):
+
+def update_password(user_id):
 
     user = Database.read_by_id("users", user_id)
     if not user:
         print("User not found.")
         user_management()
-        return
-
-    current_password = user[3]  # Es password es el cuarto elemento
-
-    password = input("Enter new password (or press Enter to keep current): ") or current_password
-
-
-    Database.update("users", user_id, password=password)
-
-    print("Password updated successfully.")
-
-    #user_management()
-
-
-
-def select_status():
-    print("Select status:")
-    print("0. Primer login")
-    print("1. Activo")
-    print("2. Bloqueado")
-
-    choice = input("Select an option 1-3: ")
-
-    if choice == "0":
-        return 0
-    elif choice == "1":
-        return 1
-    elif choice == 2:
-        return 2
-    else:
-        print("Choose a valid option")
-        select_status()
-
-
-def update_password_ui(user_id):
-
-    user = Database.read_by_id("users", user_id)
-    if not user:
-        print("User not found.")
         return
 
     current_password = user[3]  # El password es el cuarto elemento
@@ -379,9 +358,7 @@ def update_password_ui(user_id):
 
     print("Password updated successfully.")
 
-    user = Database.read_by_id("users", user_id)
-
-    return user
+    #user_management()
 
 
 def delete_user_ui():
@@ -400,10 +377,20 @@ def create_store_ui():
     store_management()
 
 
+def log_print_store(store):
+
+    log = (
+        f"{Fore.GREEN}ID:{Fore.RESET} {store[0]}, "
+        f"{Fore.GREEN}Name:{Fore.RESET} {store[1]}, "
+        f"{Fore.GREEN}Address:{Fore.RESET} {store[2]}, "
+    )
+    print(log)
+
+
 def read_stores_ui():
     stores = Database.read("stores")
     for store in stores:
-        print(store)
+        log_print_store(store)
     store_management()
 
 
