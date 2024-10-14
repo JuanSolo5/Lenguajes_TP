@@ -85,7 +85,7 @@ def login_user_ui():
             print("Blocked account.")
             sys.exit()
 
-        password = input("Enter password: ")
+        password = getpass("Enter password: ")
         if user[3] == password:
             print("Login successful.")
             role = Database.get_user_role(user[0])
