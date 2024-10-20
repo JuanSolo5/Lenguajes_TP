@@ -20,7 +20,7 @@ class Login:
     def login_user():
         email = input("Enter email: ")
         password = input("Enter password: ")
-        user = Database.get_by_email(email)
+        user = Database.read_by_email(email)
 
         if not user:
             print("Invalid email")
