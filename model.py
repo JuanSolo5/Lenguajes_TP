@@ -4,8 +4,9 @@ config = {
     "user": "root",
     "password": "",
     "host": "localhost",
-    "database": "tp4_bd",
+    "database": "tp5_bd",
 }
+
 
 class Database:
     @staticmethod
@@ -55,8 +56,10 @@ class Database:
         query = f"UPDATE {table} SET {columns} WHERE id = %s"
         cursor.execute(query, values + (any_id,))
         conn.commit()
+        result = cursor.rowcount > 0
         cursor.close()
         conn.close()
+        return result
 
     @staticmethod
     def delete(table, any_id):
@@ -65,19 +68,10 @@ class Database:
         query = f"DELETE FROM {table} WHERE id = %s"
         cursor.execute(query, (any_id,))
         conn.commit()
+        result = cursor.rowcount > 0
         cursor.close()
         conn.close()
-
-    @staticmethod
-    def get_user_role(user_id):
-        conn = Database.connect()
-        cursor = conn.cursor()
-        query = "SELECT rol FROM users WHERE id = %s"
-        cursor.execute(query, (user_id,))
-        result = cursor.fetchone()
-        cursor.close()
-        conn.close()
-        return result[0] if result else None
+        return result
 
     @staticmethod
     def read_by_email(email):
@@ -86,6 +80,28 @@ class Database:
         query = "SELECT * FROM users WHERE email = %s"
         cursor.execute(query, (email,))
         result = cursor.fetchone()
+        cursor.close()
+        conn.close()
+        return result
+
+    @staticmethod
+    def get_all_store_ids():
+        conn = Database.connect()
+        cursor = conn.cursor()
+        query = "SELECT id FROM stores"
+        cursor.execute(query)
+        result = [store[0] for store in cursor.fetchall()]
+        cursor.close()
+        conn.close()
+        return result
+
+    @staticmethod
+    def get_stores_id_name():
+        conn = Database.connect()
+        cursor = conn.cursor()
+        query = "SELECT id, name FROM stores"
+        cursor.execute(query)
+        result = cursor.fetchall()
         cursor.close()
         conn.close()
         return result
