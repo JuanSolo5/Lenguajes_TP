@@ -1,4 +1,4 @@
-from model2 import Database
+from model import Database
 from controller import Login, UserCrud, StoreCrud
 import tkinter as tk
 from tkinter import messagebox
@@ -18,14 +18,14 @@ class LoginUI:
         window.resizable(width=False, height=False)
 
         email_label = tk.Label(window, text="Email")
-        email_label.grid(row=0, column=0, padx=10, pady=10)
+        email_label.grid(row=0, column=0, padx=(10, 5), pady=10)
         email_entry = tk.Entry(window, width=30)
-        email_entry.grid(row=0, column=1, padx=10, pady=10)
+        email_entry.grid(row=0, column=1, padx=(5, 10), pady=10)
 
         password_label = tk.Label(window, text="Password")
-        password_label.grid(row=1, column=0, padx=10, pady=10)
+        password_label.grid(row=1, column=0, padx=(10, 5), pady=10)
         password_entry = tk.Entry(window, show="*", width=30)
-        password_entry.grid(row=1, column=1, padx=10, pady=10)
+        password_entry.grid(row=1, column=1, padx=(5, 10), pady=10)
 
         def attempt_login():
             email = email_entry.get()
@@ -74,7 +74,7 @@ class MenuUI:
             MenuUI.store_management_ui()
 
         user_button = tk.Button(window, text="User Management", width=16, command=to_user_management)
-        user_button.pack(pady=10)
+        user_button.pack(pady=(25, 10))
 
         store_button = tk.Button(window, text="Store Management", width=16, command=to_store_management)
         store_button.pack(pady=10)
@@ -116,7 +116,7 @@ class MenuUI:
             MenuUI.main_menu_ui()
 
         create_user_button = tk.Button(window, text="Create User", width=16, command=to_create_user)
-        create_user_button.pack(pady=10)
+        create_user_button.pack(pady=(25, 10))
 
         read_users_button = tk.Button(window, text="Read Users", width=16, command=to_read_users)
         read_users_button.pack(pady=10)
@@ -192,7 +192,7 @@ class MenuUI:
             MenuUI.main_menu_ui()
 
         create_store_button = tk.Button(window, text="Create Store", width=16, command=to_create_store)
-        create_store_button.pack(pady=10)
+        create_store_button.pack(pady=(25, 10))
 
         read_stores_button = tk.Button(window, text="Read Stores", width=16, command=to_read_stores)
         read_stores_button.pack(pady=10)
@@ -325,8 +325,9 @@ class UserCrudUI:
         y = (window.winfo_screenheight() // 2) - (height // 2)
         window.geometry('{}x{}+{}+{}'.format(width, height, x, y))
 
-        user_frame = tk.Frame(window)
-        user_frame.pack(padx=10, pady=10, fill="both", expand=True)
+        user_frame = tk.Frame(window, height=280, width=460)
+        user_frame.pack(padx=20, pady=10, fill="x", expand=False)
+        user_frame.pack_propagate(False)
 
         columns = ("ID", "Name", "Email", "Password", "Role", "Telephone", "Address", "Status", "Store ID")
         tree = ttk.Treeview(user_frame, columns=columns, show="headings", height=15)
@@ -372,7 +373,7 @@ class UserCrudUI:
             MenuUI.user_management_ui()
 
         back_button = tk.Button(window, text="Back", width=16, command=back_to_users)
-        back_button.pack(pady=20)
+        back_button.pack(pady=75)
 
         window.mainloop()
 
@@ -385,14 +386,15 @@ class UserCrudUI:
 
         window = tk.Tk()
         window.title("User Details")
-        height = 300
+        height = 230
         width = 700
         x = (window.winfo_screenwidth() // 2) - (width // 2)
         y = (window.winfo_screenheight() // 2) - (height // 2)
         window.geometry('{}x{}+{}+{}'.format(width, height, x, y))
 
-        user_frame = tk.Frame(window, width=600)
-        user_frame.pack(padx=10, pady=10, fill="both", expand=True)
+        user_frame = tk.Frame(window, height=70, width=600)
+        user_frame.pack(padx=20, pady=10, fill="x", expand=False)
+        user_frame.pack_propagate(False)
 
         columns = ("Name", "Email", "Telephone", "Address", "Store Name")
         tree = ttk.Treeview(user_frame, columns=columns, show="headings", height=1)
@@ -421,7 +423,7 @@ class UserCrudUI:
             MenuUI.employee_management_ui(user)
 
         back_button = tk.Button(window, text="Back", width=16, command=back_to_users)
-        back_button.pack(pady=20)
+        back_button.pack(pady=50)
 
         window.mainloop()
 
@@ -488,8 +490,9 @@ class UserCrudUI:
         y = (window.winfo_screenheight() // 2) - (height // 2)
         window.geometry('{}x{}+{}+{}'.format(width, height, x, y))
 
-        user_frame = tk.Frame(window)
-        user_frame.pack(padx=10, pady=10, fill="both", expand=True)
+        user_frame = tk.Frame(window, height=280, width=460)
+        user_frame.pack(padx=20, pady=10, fill="x", expand=False)
+        user_frame.pack_propagate(False)
 
         columns = ("ID", "Name", "Email", "Password", "Role", "Telephone", "Address", "Status", "Store ID")
         tree = ttk.Treeview(user_frame, columns=columns, show="headings", height=15)
@@ -540,14 +543,14 @@ class UserCrudUI:
                     UserCrudUI.update_user_ui(user_data)
 
         select_button = tk.Button(window, text="Select", width=16, command=select_user)
-        select_button.pack(pady=20)
+        select_button.pack(pady=(50, 10))
 
         def back_to_users():
             window.destroy()
             MenuUI.user_management_ui()
 
         back_button = tk.Button(window, text="Back", width=16, command=back_to_users)
-        back_button.pack(pady=10)
+        back_button.pack(pady=(10, 25))
 
         window.mainloop()
 
@@ -700,8 +703,9 @@ class UserCrudUI:
         y = (window.winfo_screenheight() // 2) - (height // 2)
         window.geometry('{}x{}+{}+{}'.format(width, height, x, y))
 
-        user_frame = tk.Frame(window)
-        user_frame.pack(padx=10, pady=10, fill="both", expand=True)
+        user_frame = tk.Frame(window, height=280, width=460)
+        user_frame.pack(padx=20, pady=10, fill="x", expand=False)
+        user_frame.pack_propagate(False)
 
         columns = ("ID", "Name", "Email", "Password", "Role", "Telephone", "Address", "Status", "Store ID")
         tree = ttk.Treeview(user_frame, columns=columns, show="headings", height=15)
@@ -763,14 +767,14 @@ class UserCrudUI:
                 messagebox.showerror("Error", "No user selected.")
 
         delete_button = tk.Button(window, text="Delete", width=16, command=try_user_delete)
-        delete_button.pack(pady=20)
+        delete_button.pack(pady=(50, 10))
 
         def back_to_users():
             window.destroy()
             MenuUI.user_management_ui()
 
         back_button = tk.Button(window, text="Back", width=16, command=back_to_users)
-        back_button.pack(pady=10)
+        back_button.pack(pady=(10, 25))
 
         window.mainloop()
 
@@ -831,14 +835,15 @@ class StoreCrudUI:
     def read_stores_ui(stores):
         window = tk.Tk()
         window.title("Store Data")
-        height = 500
-        width = 1000
+        height = 400
+        width = 500
         x = (window.winfo_screenwidth() // 2) - (width // 2)
         y = (window.winfo_screenheight() // 2) - (height // 2)
         window.geometry('{}x{}+{}+{}'.format(width, height, x, y))
 
-        store_frame = tk.Frame(window)
-        store_frame.pack(padx=10, pady=10, fill="both", expand=True)
+        store_frame = tk.Frame(window, width=450, height=250)
+        store_frame.pack(padx=20, pady=10, fill="x", expand=False)
+        store_frame.pack_propagate(False)
 
         columns = ("ID", "Name", "Address")
         tree = ttk.Treeview(store_frame, columns=columns, show="headings", height=15)
@@ -867,7 +872,7 @@ class StoreCrudUI:
             MenuUI.store_management_ui()
 
         back_button = tk.Button(window, text="Back", width=16, command=back_to_stores)
-        back_button.pack(pady=20)
+        back_button.pack(pady=40)
 
         window.mainloop()
 
@@ -875,14 +880,15 @@ class StoreCrudUI:
     def store_selection_ui():
         window = tk.Tk()
         window.title("Update Store")
-        height = 500
-        width = 1000
+        height = 400
+        width = 500
         x = (window.winfo_screenwidth() // 2) - (width // 2)
         y = (window.winfo_screenheight() // 2) - (height // 2)
         window.geometry('{}x{}+{}+{}'.format(width, height, x, y))
 
-        store_frame = tk.Frame(window)
-        store_frame.pack(padx=10, pady=10, fill="both", expand=True)
+        store_frame = tk.Frame(window, width=450, height=250)
+        store_frame.pack(padx=20, pady=10, fill="x", expand=False)
+        store_frame.pack_propagate(False)
 
         columns = ("ID", "Name", "Address")
         tree = ttk.Treeview(store_frame, columns=columns, show="headings", height=15)
@@ -916,7 +922,7 @@ class StoreCrudUI:
                     StoreCrudUI.update_store_ui(store_data)
 
         select_button = tk.Button(window, text="Select", width=16, command=select_store)
-        select_button.pack(pady=20)
+        select_button.pack(pady=(20, 10))
 
         def back_to_stores():
             window.destroy()
@@ -984,14 +990,15 @@ class StoreCrudUI:
     def delete_store_ui():
         window = tk.Tk()
         window.title("Delete Store")
-        height = 500
-        width = 1000
+        height = 400
+        width = 500
         x = (window.winfo_screenwidth() // 2) - (width // 2)
         y = (window.winfo_screenheight() // 2) - (height // 2)
         window.geometry('{}x{}+{}+{}'.format(width, height, x, y))
 
-        store_frame = tk.Frame(window)
-        store_frame.pack(padx=10, pady=10, fill="both", expand=True)
+        store_frame = tk.Frame(window, width=450, height=250)
+        store_frame.pack(padx=20, pady=10, fill="x", expand=False)
+        store_frame.pack_propagate(False)
 
         columns = ("ID", "Name", "Address")
         tree = ttk.Treeview(store_frame, columns=columns, show="headings", height=15)
@@ -1036,7 +1043,7 @@ class StoreCrudUI:
                 messagebox.showerror("Error", "No user selected.")
 
         delete_button = tk.Button(window, text="Delete", width=16, command=try_store_delete)
-        delete_button.pack(pady=10)
+        delete_button.pack(pady=(20, 10))
 
         def back_to_stores():
             window.destroy()
