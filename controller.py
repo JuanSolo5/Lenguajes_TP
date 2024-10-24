@@ -1,6 +1,6 @@
 import random
 import string
-from model2 import Database
+from model import Database
 
 
 class Login:
