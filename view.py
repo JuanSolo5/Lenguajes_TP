@@ -1,5 +1,5 @@
 from model2 import Database
-from controller2 import Login, UserCrud, StoreCrud
+from controller import Login, UserCrud, StoreCrud
 import tkinter as tk
 from tkinter import messagebox
 from tkinter import ttk
