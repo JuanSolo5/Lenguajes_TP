@@ -269,17 +269,6 @@ class UserCrudUI:
             selected_store_id = selected_store.split('[')[-1].strip(']')[0]
             return selected_store_id
 
-        # store_label = tk.Label(window, text="Store ID")
-        # store_label.grid(row=5, column=0, padx=10, pady=10)
-
-        # store_ids = Database.get_all_store_ids()
-        # store_var = tk.StringVar(window)
-        # store_var.set(store_ids[0])
-
-        # store_combobox = ttk.Combobox(window, values=store_ids, width=27)
-        # store_combobox.set(store_ids[0])
-        # store_combobox.grid(row=5, column=1, padx=10, pady=10)
-
         def try_user_creation():
             try:
                 name = name_entry.get()
@@ -287,7 +276,6 @@ class UserCrudUI:
                 role = role_combobox.get()
                 telephone = telephone_entry.get()
                 address = address_entry.get()
-                # store_id = store_combobox.get()
                 store_id = get_selected_store_id()
 
                 UserCrud.create_user(name, email, role, telephone, address, store_id)
@@ -329,6 +317,10 @@ class UserCrudUI:
         user_frame.pack(padx=20, pady=10, fill="x", expand=False)
         user_frame.pack_propagate(False)
 
+        style = ttk.Style()
+        style.theme_use('default')
+        style.configure("Treeview.Heading", background="lightgreen")
+
         columns = ("ID", "Name", "Email", "Password", "Role", "Telephone", "Address", "Status", "Store ID")
         tree = ttk.Treeview(user_frame, columns=columns, show="headings", height=15)
 
@@ -359,8 +351,12 @@ class UserCrudUI:
         tree.heading("Store ID", text="Store ID")
         tree.column("Store ID", width=50, anchor="center")
 
-        for user in users:
-            tree.insert("", "end", values=user)
+        tree.tag_configure('oddrow', background='white')
+        tree.tag_configure('evenrow', background='gray96')
+
+        for idx, user in enumerate(users):
+            tag = 'evenrow' if idx % 2 == 0 else 'oddrow'
+            tree.insert("", "end", values=user, tags=(tag,))
 
         scrollbar = ttk.Scrollbar(user_frame, orient="vertical", command=tree.yview)
         tree.configure(yscrollcommand=scrollbar.set)
@@ -396,6 +392,10 @@ class UserCrudUI:
         user_frame.pack(padx=20, pady=10, fill="x", expand=False)
         user_frame.pack_propagate(False)
 
+        style = ttk.Style()
+        style.theme_use('default')
+        style.configure("Treeview.Heading", background="lightgreen")
+
         columns = ("Name", "Email", "Telephone", "Address", "Store Name")
         tree = ttk.Treeview(user_frame, columns=columns, show="headings", height=1)
 
@@ -414,7 +414,9 @@ class UserCrudUI:
         tree.heading("Store Name", text="Store Name")
         tree.column("Store Name", width=100, anchor="center")
 
-        tree.insert("", "end", values=(name, email, telephone, address, store_name))
+        tree.tag_configure("single_row", background="gray96")
+
+        tree.insert("", "end", values=(name, email, telephone, address, store_name), tags=("single_row",))
 
         tree.pack(fill="both", expand=True)
 
@@ -494,6 +496,10 @@ class UserCrudUI:
         user_frame.pack(padx=20, pady=10, fill="x", expand=False)
         user_frame.pack_propagate(False)
 
+        style = ttk.Style()
+        style.theme_use('default')
+        style.configure("Treeview.Heading", background="lightgreen")
+
         columns = ("ID", "Name", "Email", "Password", "Role", "Telephone", "Address", "Status", "Store ID")
         tree = ttk.Treeview(user_frame, columns=columns, show="headings", height=15)
 
@@ -524,9 +530,13 @@ class UserCrudUI:
         tree.heading("Store ID", text="Store ID")
         tree.column("Store ID", width=50, anchor="center")
 
+        tree.tag_configure('oddrow', background='white')
+        tree.tag_configure('evenrow', background='gray96')
+
         users = Database.read("users")
-        for user in users:
-            tree.insert("", "end", values=user)
+        for idx, user in enumerate(users):
+            tag = 'evenrow' if idx % 2 == 0 else 'oddrow'
+            tree.insert("", "end", values=user, tags=(tag,))
 
         tree.pack(side="left", fill="both", expand=True)
 
@@ -638,16 +648,6 @@ class UserCrudUI:
             selected_store_id = selected_store.split('[')[-1].strip(']')[0]
             return selected_store_id
 
-        # store_id_label = tk.Label(window, text="Store ID")
-        # store_id_label.grid(row=7, column=0, padx=10, pady=10)
-
-        # store_id_options = Database.get_all_store_ids()
-        # store_id_var = tk.StringVar(window)
-        # store_id_var.set(store_id)
-        # store_id_combobox = ttk.Combobox(window, values=store_id_options, width=27)
-        # store_id_combobox.set(store_id)
-        # store_id_combobox.grid(row=7, column=1, padx=10, pady=10)
-
         def try_user_update():
             try:
                 updated_name = name_entry.get()
@@ -657,7 +657,6 @@ class UserCrudUI:
                 updated_telephone = telephone_entry.get()
                 updated_address = address_entry.get()
                 updated_status = status_combobox.get()
-                # updated_store_id = store_id_combobox.get()
                 updated_store_id = get_selected_store_id()
 
                 UserCrud.update_user(
@@ -707,6 +706,10 @@ class UserCrudUI:
         user_frame.pack(padx=20, pady=10, fill="x", expand=False)
         user_frame.pack_propagate(False)
 
+        style = ttk.Style()
+        style.theme_use('default')
+        style.configure("Treeview.Heading", background="lightgreen")
+
         columns = ("ID", "Name", "Email", "Password", "Role", "Telephone", "Address", "Status", "Store ID")
         tree = ttk.Treeview(user_frame, columns=columns, show="headings", height=15)
 
@@ -737,9 +740,13 @@ class UserCrudUI:
         tree.heading("Store ID", text="Store ID")
         tree.column("Store ID", width=50, anchor="center")
 
+        tree.tag_configure('oddrow', background='white')
+        tree.tag_configure('evenrow', background='gray96')
+
         users = Database.read("users")
-        for user in users:
-            tree.insert("", "end", values=user)
+        for idx, user in enumerate(users):
+            tag = 'evenrow' if idx % 2 == 0 else 'oddrow'
+            tree.insert("", "end", values=user, tags=(tag,))
 
         tree.pack(side="left", fill="both", expand=True)
 
@@ -845,6 +852,10 @@ class StoreCrudUI:
         store_frame.pack(padx=20, pady=10, fill="x", expand=False)
         store_frame.pack_propagate(False)
 
+        style = ttk.Style()
+        style.theme_use('default')
+        style.configure("Treeview.Heading", background="lightgreen")
+
         columns = ("ID", "Name", "Address")
         tree = ttk.Treeview(store_frame, columns=columns, show="headings", height=15)
 
@@ -857,9 +868,13 @@ class StoreCrudUI:
         tree.heading("Address", text="Address")
         tree.column("Address", width=120, anchor="center")
 
-        for store in stores:
+        tree.tag_configure('oddrow', background='white')
+        tree.tag_configure('evenrow', background='gray96')
+
+        for idx, store in enumerate(stores):
+            tag = 'evenrow' if idx % 2 == 0 else 'oddrow'
             id, name, address = store
-            tree.insert("", "end", values=(id, name, address))
+            tree.insert("", "end", values=(id, name, address), tags=(tag,))
 
         tree.pack(side="left", fill="both", expand=True)
 
@@ -890,6 +905,10 @@ class StoreCrudUI:
         store_frame.pack(padx=20, pady=10, fill="x", expand=False)
         store_frame.pack_propagate(False)
 
+        style = ttk.Style()
+        style.theme_use('default')
+        style.configure("Treeview.Heading", background="lightgreen")
+
         columns = ("ID", "Name", "Address")
         tree = ttk.Treeview(store_frame, columns=columns, show="headings", height=15)
 
@@ -902,10 +921,14 @@ class StoreCrudUI:
         tree.heading("Address", text="Address")
         tree.column("Address", width=120, anchor="center")
 
+        tree.tag_configure('oddrow', background='white')
+        tree.tag_configure('evenrow', background='gray96')
+
         stores = Database.read("stores")
-        for store in stores:
+        for idx, store in enumerate(stores):
+            tag = 'evenrow' if idx % 2 == 0 else 'oddrow'
             id, name, address = store
-            tree.insert("", "end", values=(id, name, address))
+            tree.insert("", "end", values=(id, name, address), tags=(tag,))
 
         tree.pack(side="left", fill="both", expand=True)
 
@@ -1000,6 +1023,10 @@ class StoreCrudUI:
         store_frame.pack(padx=20, pady=10, fill="x", expand=False)
         store_frame.pack_propagate(False)
 
+        style = ttk.Style()
+        style.theme_use('default')
+        style.configure("Treeview.Heading", background="lightgreen")
+
         columns = ("ID", "Name", "Address")
         tree = ttk.Treeview(store_frame, columns=columns, show="headings", height=15)
 
@@ -1012,10 +1039,14 @@ class StoreCrudUI:
         tree.heading("Address", text="Address")
         tree.column("Address", width=120, anchor="center")
 
+        tree.tag_configure('oddrow', background='white')
+        tree.tag_configure('evenrow', background='gray96')
+
         stores = Database.read("stores")
-        for store in stores:
+        for idx, store in enumerate(stores):
+            tag = 'evenrow' if idx % 2 == 0 else 'oddrow'
             id, name, address = store
-            tree.insert("", "end", values=(id, name, address))
+            tree.insert("", "end", values=(id, name, address), tags=(tag,))
 
         tree.pack(side="left", fill="both", expand=True)
 
